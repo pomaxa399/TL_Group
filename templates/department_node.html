@@ -1,0 +1,20 @@
+<!-- myapp/templates/department_node.html -->
+{% if department.children.exists %}
+<ul class="list-unstyled ml-4">
+    {% for child in department.children.all %}
+        <li>
+            <button class="btn btn-link" data-toggle="collapse" data-target="#dept-{{ child.id }}">
+                <i class="fas fa-chevron-right"></i> {{ child.name }}
+            </button>
+            <div id="dept-{{ child.id }}" class="collapse">
+                {% include 'department_node.html' with department=child %}
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<ul class="list-unstyled ml-4">
+    {% for employee in department.employee_set.all %}
+        <li>{{ employee.name }} - {{ employee.position }}</li>
+    {% endfor %}
+</ul>

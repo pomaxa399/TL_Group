@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Department Tree</h1>
+<div class="tree">
+    {% for department in departments %}
+        {% if not department.parent %}
+            <ul class="list-unstyled">
+                <li>
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#dept-{{ department.id }}">
+                        <i class="fas fa-chevron-right"></i> {{ department.name }}
+                    </button>
+                    <div id="dept-{{ department.id }}" class="collapse">
+                        {% include 'department_node.html' with department=department %}
+                    </div>
+                </li>
+            </ul>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.collapse').on('show.bs.collapse', function () {
+            $(this).siblings('button').find('i').removeClass('fa-chevron-right').addClass('fa-chevron-down');
+        });
+        $('.collapse').on('hide.bs.collapse', function () {
+            $(this).siblings('button').find('i').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+        });
+    });
+</script>
+{% endblock %}
